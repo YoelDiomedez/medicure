@@ -1,6 +1,6 @@
 # Medicure
 
-Sistema de Información para la gestión de Historiales Médicos
+Sistema de Información para la gestión de Historiales Médicos -> [Live Demo](https://medi-cure.herokuapp.com)
 
 **Consideraciones:**
 
