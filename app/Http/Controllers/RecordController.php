@@ -7,6 +7,7 @@ use App\Models\Record;
 use App\Models\Surgery;
 use App\Models\Attention;
 use App\Models\Prescription;
+use App\Events\AttentionStatus;
 use Illuminate\Http\Request;
 
 class RecordController extends Controller
@@ -107,10 +108,11 @@ class RecordController extends Controller
             $prescription->save();
         }
         
-        // Actualiza el estado de una atención 
         $attention = Attention::find($record->attention_id);
-        $attention->status = 'D';
+        $attention->status = 'D'; // Attention done
         $attention->update();
+
+        event(new AttentionStatus($attention->status));
 
         return $record;
     }

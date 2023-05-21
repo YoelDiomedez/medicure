@@ -52,6 +52,7 @@
 @endsection
 
 @push('scripts')
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script>
     $(document).ready( function () {
 
@@ -120,15 +121,27 @@
         $.fn.dataTable.ext.errMode = 'throw'
     })
 
-    function reloadTriagesDataTable () { 
-        $('#triagesDataTable').DataTable().ajax.reload()
-    }
+    var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
+        cluster: "{{ env('PUSHER_APP_CLUSTER') }}"
+    });
 
-    function reloadAttentionsDataTable () {
-        $('#attentionsDataTable').DataTable().ajax.reload()
-    }
-
-    setInterval(reloadTriagesDataTable, 5000)
-    setInterval(reloadAttentionsDataTable, 6000)
+    var channel = pusher.subscribe('attention-channel');
+    channel.bind('patient-attention', function(data) {
+        switch (data.status) {
+            case 'T': // En triage
+                $('#triagesDataTable').DataTable().ajax.reload()
+                break;
+            case 'A': // En Atención
+                $('#triagesDataTable').DataTable().ajax.reload()
+                $('#attentionsDataTable').DataTable().ajax.reload()
+                break;
+            case 'D': // Atención concluida
+                $('#attentionsDataTable').DataTable().ajax.reload()
+                break;
+            default:
+                console.log('Unknown attention status: ' + data.status);
+                break;
+        }     
+    });
     </script>
 @endpush

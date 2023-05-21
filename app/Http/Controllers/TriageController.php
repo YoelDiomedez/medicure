@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Triage;
 use App\Models\Attention;
+use App\Events\AttentionStatus;
 use Illuminate\Http\Request;
 
 class TriageController extends Controller
@@ -60,8 +61,10 @@ class TriageController extends Controller
         $triage->update();
 
         $attention = Attention::find($triage->attention_id);
-        $attention->status = 'A';
+        $attention->status = 'A'; // Ready for Attention
         $attention->update();
+        
+        event(new AttentionStatus($attention->status));
 
         return $triage;
     }

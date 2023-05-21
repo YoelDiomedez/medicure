@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Triage;
 use App\Models\Record;
 use App\Models\Attention;
+use App\Events\AttentionStatus;
 use Illuminate\Http\Request;
 
 class AttentionController extends Controller
@@ -49,6 +50,7 @@ class AttentionController extends Controller
         $attention->user_id     = auth()->user()->id;
         $attention->employee_id = $request->employee;
         $attention->amount      = $request->amount;
+        $attention->status      = 'T'; // Ready for Triage
 
         $attention->save();
 
@@ -60,6 +62,8 @@ class AttentionController extends Controller
 
         $triage->save();      
         $record->save();      
+
+        event(new AttentionStatus($attention->status));
 
         return $attention;
     }
@@ -81,6 +85,8 @@ class AttentionController extends Controller
 
         $attention->update();
 
+        event(new AttentionStatus($attention->status));
+
         return Attention::with([
             'patient:id,surnames,names,document_type,document_numb,birthdate',
             'service:id,concept',
@@ -98,6 +104,8 @@ class AttentionController extends Controller
     public function destroy(Attention $attention)
     {
         $attention->delete();
+
+        event(new AttentionStatus($attention->status));
 
         return $attention;
     }
