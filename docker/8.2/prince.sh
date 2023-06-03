@@ -6,9 +6,9 @@ echo "-----> Installing PrinceXML $PRINCE_VERSION"
 (cd .downloads; [ -d "prince-$PRINCE_VERSION-linux-amd64-static" ] ||
   curl -s https://www.princexml.com/download/prince-$PRINCE_VERSION-linux-generic-x86_64.tar.gz | tar xzf -)
 
-if [ -f $3/PRINCE_LICENSE ]; then
+if [ -f $3/LICENSE ]; then
   echo "       Configuring license file"
-  cp $3/PRINCE_LICENSE ./.downloads/prince-$PRINCE_VERSION-linux-generic-x86_64/lib/prince/license/license.dat
+  cp $3/LICENSE ./.downloads/prince-$PRINCE_VERSION-linux-generic-x86_64/lib/prince/license/license.dat
 else
   echo "       No license found"
 fi
