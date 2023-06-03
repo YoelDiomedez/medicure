@@ -29,6 +29,9 @@ class AttentionController extends Controller
             )
             ->addColumn('buttons', "attentions.buttons.option")
             ->rawColumns(['buttons'])
+            ->editColumn('created_at', function (Attention $attention) {
+                return $attention->created_at->tz(config('app.timezone'));
+            })
             ->toJson(); 
         }
         

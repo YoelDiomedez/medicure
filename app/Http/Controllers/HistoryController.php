@@ -24,12 +24,12 @@ class HistoryController extends Controller
                 Attention::select('id', 'created_at')
                           ->where('status', 'D')
                           ->where('patient_id', $patient)
-                          ->withCasts([
-                                'created_at' => 'datetime:d/m/Y H:i:s',
-                            ])
             )
             ->addColumn('buttons', "histories.buttons.option")
             ->rawColumns(['buttons'])
+            ->editColumn('created_at', function (Attention $attention) {
+                return $attention->created_at->tz(config('app.timezone'));
+            })
             ->toJson(); 
         }
 

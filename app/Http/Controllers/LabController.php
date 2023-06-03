@@ -24,12 +24,13 @@ class LabController extends Controller
                     'patient',
                     'service',
                     'user.patient',
-                ])->withCasts([
-                    'updated_at' => 'datetime:d/m/Y H:i:s',
                 ])
             )
             ->addColumn('buttons', "labs.buttons.option")
             ->rawColumns(['buttons'])
+            ->editColumn('updated_at', function (Lab $lab) {
+                return $lab->updated_at->tz(config('app.timezone'));
+            })
             ->toJson(); 
         }
         

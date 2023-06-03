@@ -25,12 +25,13 @@ class AuditController extends Controller
 
                     $query->select('id','names', 'surnames');
 
-                }])->withCasts([
-                    'created_at' => 'datetime:d/m/Y H:i:s',
-                ])
+                }])
             )
             ->addColumn('btnView', "<button id='viewAuditBtn' class='btn btn-info'><i class='fa fa-eye'></i> <span class='hidden-xs'>Detalles</span></button>")
             ->rawColumns(['btnView'])
+            ->editColumn('created_at', function (Audit $audit) {
+                return $audit->created_at->tz(config('app.timezone'));
+            })
             ->toJson(); 
         }
         

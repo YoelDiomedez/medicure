@@ -33,13 +33,13 @@ class RecordController extends Controller
                     'employee.patient:id,surnames,names'
                 ])->select('id', 'patient_id', 'service_id', 'user_id', 'employee_id', 'amount', 'created_at')
                    ->where('status', 'A')
-                   ->withCasts([
-                        'created_at' => 'datetime:d/m/Y H:i:s',
-                    ])
             )
             ->addIndexColumn()
             ->addColumn('buttons', "records.buttons.option")
             ->rawColumns(['buttons'])
+            ->editColumn('created_at', function (Attention $attention) {
+                return $attention->created_at->tz(config('app.timezone'));
+            })
             ->toJson(); 
         }
         
