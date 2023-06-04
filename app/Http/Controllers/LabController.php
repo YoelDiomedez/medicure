@@ -66,11 +66,11 @@ class LabController extends Controller
      */
     public function show(Lab $lab)
     {
-        $html = view('labs.show', compact('lab'))->render();
+        $html    = view('labs.show', compact('lab'))->render();
+    	$prince  = new Prince(config('app.name', 'Laravel') . ' | Informe de Laboratorial');
+        $pdfpath = $prince->generate($html);
 
-    	$prince = new Prince(config('app.name', 'Laravel') . ' | Informe de Laboratorial');
-        
-        return response()->file($prince->generate($html));
+        return response()->file($pdfpath);
     }
 
     /**
