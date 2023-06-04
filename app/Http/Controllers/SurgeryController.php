@@ -75,10 +75,11 @@ class SurgeryController extends Controller
      */
     public function show(Surgery $surgery)
     {
-        $html = view('surgeries.show', compact('surgery'))->render();
+        $html    = view('surgeries.show', compact('surgery'))->render();
+        $prince  = new Prince(config('app.name', 'Laravel') . ' | Informe Operatorio-Quirúrgico');
+        $pdfpath = $prince->generate($html);
 
-        $prince = new Prince(config('app.name', 'Laravel') . ' | Informe Operatorio-Quirúrgico');
-        $prince->generate($html);
+        return response()->file($pdfpath);
     }
 
     /**

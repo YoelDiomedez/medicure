@@ -48,11 +48,11 @@ class HistoryController extends Controller
                            ->where('status', 'D')
                            ->firstOrFail();
 
-        $html = view('histories.record', compact('record'))->render();
-         
+        $html    = view('histories.record', compact('record'))->render();
+    	$prince  = new Prince(config('app.name', 'Laravel') . ' | Historias');
+        $pdfpath = $prince->generate($html);
 
-    	$prince = new Prince(config('app.name', 'Laravel') . ' | Historias');
-        $prince->generate($html);
+        return response()->file($pdfpath);
     }
 
     /**
@@ -61,15 +61,16 @@ class HistoryController extends Controller
      * @param  \App\Attention  $attention
      * @return \App\Libraries\Prince
      */
-    public function prescription(Request $request, Attention $attention)
+    public function prescription(Attention $attention)
     {  
         $recipe = Attention::where('id', $attention->id)
                                  ->where('status', 'D')
                                  ->firstOrFail();
 
-        $html = view('histories.prescription', compact('recipe'))->render();
+        $html    = view('histories.prescription', compact('recipe'))->render();
+        $prince  = new Prince(config('app.name', 'Laravel') . ' | Recetas');
+        $pdfpath = $prince->generate($html);
 
-        $prince = new Prince(config('app.name', 'Laravel') . ' | Recetas');
-        $prince->generate($html);
+        return response()->file($pdfpath);
     }
 }
