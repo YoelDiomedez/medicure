@@ -13,6 +13,12 @@ class Prince
     private $filename;
     private $filepath;
 
+    /**
+     * Create a new Prince instance.
+     * 
+     * @param   string $title
+     * @return  void
+     */
     function __construct($title)
     {
         if (!is_file(env('PRINCE_EXECUTABLE_PATH'))) {
@@ -39,6 +45,12 @@ class Prince
 
     }
 
+    /**
+     * Convert HTML documents to PDF.
+     * 
+     * @param   string $html
+     * @return  string $pdf 
+     */
     public function generate($html)
     {
         $pdf     = null;
@@ -60,7 +72,6 @@ class Prince
             Log::debug('$process->output()      : ' . $process->output());
             Log::debug('$process->errorOutput() : ' . $process->errorOutput());
             Log::debug('$pdf     : ' . $pdf);
-
             Log::debug('**********************************');
         }
 
