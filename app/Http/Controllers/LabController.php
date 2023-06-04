@@ -69,7 +69,8 @@ class LabController extends Controller
         $html = view('labs.show', compact('lab'))->render();
 
     	$prince = new Prince(config('app.name', 'Laravel') . ' | Informe de Laboratorial');
-        $prince->generate($html);
+        
+        return response()->file($prince->generate($html));
     }
 
     /**

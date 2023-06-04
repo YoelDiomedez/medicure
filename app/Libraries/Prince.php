@@ -27,6 +27,8 @@ class Prince
 
     public function generate($html)
     {
+        $pdfpath = null;
+
         $filename = time() . '_' . bin2hex(random_bytes(20));
 
         Storage::disk(config('app.disk'))->put($filename, $html);
@@ -36,10 +38,9 @@ class Prince
         exec(sprintf('%1$s %2$s %3$s --output %3$s.pdf', $this->prince, $this->options, $filepath));
         
         if (Storage::disk(config('app.disk'))->exists($filename . '.pdf')) {
-            header('Content-type:application/pdf');
-            header('Content-Disposition:inline;filename=reporte.pdf');
-            header('Content-Length: ' . filesize($filepath . '.pdf'));
-            readfile($filepath . '.pdf');
+
+            return $pdfpath = $filepath . '.pdf';
+            
         }
     }
 }
