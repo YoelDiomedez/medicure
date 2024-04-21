@@ -94,30 +94,6 @@
                 ],
                 buttons: [
                     {
-                        extend: "print",
-                        className: "btn dark",
-                        exportOptions: { columns: [ 0, 1]},
-                        text: '<i class="icon-printer"></i> Imprimir',
-                        titleAttr: 'Imprimir',
-                        title: 'Historial Médico — ' + text 
-                    }, 
-                    {
-                        extend: "pdf",
-                        className: "btn red",
-                        exportOptions: { columns: [ 0, 1]},
-                        text:      '<i class="fa fa-file-pdf-o"></i> PDF',
-                        titleAttr: 'PDF',
-                        title: 'Historial Médico — ' + text
-                    }, 
-                    {
-                        extend: "excel",
-                        className: "btn green-meadow",
-                        exportOptions: { columns: [ 0, 1]},
-                        text: '<i class="fa fa-file-excel-o"></i> Excel',
-                        titleAttr: 'Excel',
-                        title: 'Historial Médico — ' + text
-                    },
-                    {
                         extend: "colvis",
                         className: "btn purple",
                         text: '<i class="fa fa-th-list"></i>'
